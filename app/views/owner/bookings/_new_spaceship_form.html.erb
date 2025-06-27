@@ -3,7 +3,18 @@
 </h3>
 
 <div id="spaceship-form-wrapper" style="max-width: 480px; margin: 0 auto; padding: 10px; display: none;">
-  <%= simple_form_for spaceship, html: { multipart: true } do |f| %>
+  <%= simple_form_for @spaceship || Spaceship.new, url: spaceships_path, html: { multipart: true, id: 'new-spaceship-form' } do |f| %>
+    <% if @spaceship&.errors.any? %>
+      <div class="alert alert-danger" style="background-color: #dc3545; color: white; padding: 10px; border-radius: 4px; margin-bottom: 16px;">
+        <h4>Please fix the following errors:</h4>
+        <ul style="margin: 0; padding-left: 20px;">
+          <% @spaceship.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
     <div style="position: relative; margin-bottom: 12px;">
       <%= f.file_field :photo, id: "photo-upload", style: "opacity: 0; position: absolute; width: 100%; height: 40px; top: 0; left: 0; cursor: pointer;" %>
 
@@ -17,19 +28,19 @@
     <% input_style = "padding: 6px 8px; font-family: Arial, sans-serif; border-radius: 4px; border: 1px solid #444; background-color: #1f1c2e; color: white; width: 100%; box-sizing: border-box;" %>
 
     <div class="form-inputs" style="display: flex; flex-direction: column; gap: 6px;">
-      <%= f.input :name, input_html: { style: input_style } %>
-      <%= f.input :description, as: :text, input_html: { style: input_style, rows: 1 } %>
-      <%= f.input :max_speed, input_html: { style: input_style } %>
-      <%= f.input :size, collection: ['small', 'medium', 'large', 'mega big'], prompt: 'Select size', input_html: { style: input_style } %>
-      <%= f.input :price, input_html: { style: input_style } %>
-      <%= f.input :features, input_html: { style: input_style, rows: 1 } %>
+      <%= f.input :name, input_html: { style: input_style }, required: true %>
+      <%= f.input :description, as: :text, input_html: { style: input_style, rows: 3 }, required: true %>
+      <%= f.input :max_speed, input_html: { style: input_style }, required: true %>
+      <%= f.input :size, collection: ['small', 'medium', 'large', 'mega big'], prompt: 'Select size', input_html: { style: input_style }, required: true %>
+      <%= f.input :price, input_html: { style: input_style }, required: true %>
+      <%= f.input :features, as: :text, input_html: { style: input_style, rows: 2 }, required: true %>
     </div>
 
     <div class="form-actions d-flex justify-content-between mt-3" style="margin-top: 16px;">
       <button type="button" id="cancel-form-button" class="btn btn-outline-light" style="border-radius: 4px; padding: 8px 16px;">
         Cancel
       </button>
-      <%= f.button :submit, "Create Spaceship", class: "btn btn-primary", style: "border-radius: 4px; padding: 8px 16px;" %>
+      <%= f.button :submit, "Create Spaceship", class: "btn btn-primary", style: "border-radius: 4px; padding: 8px 16px;", id: "submit-spaceship" %>
     </div>
   <% end %>
 </div>
@@ -40,6 +51,8 @@
     const fileNameDisplay = document.getElementById('file-name-display');
     const cancelBtn = document.getElementById("cancel-form-button");
     const formWrapper = document.getElementById("spaceship-form-wrapper");
+    const form = document.getElementById('new-spaceship-form');
+    const submitBtn = document.getElementById('submit-spaceship');
 
     if (fileNameDisplay && realFileInput) {
       fileNameDisplay.addEventListener('click', () => realFileInput.click());
@@ -54,6 +67,26 @@
     if(cancelBtn && formWrapper){
       cancelBtn.addEventListener("click", function() {
         formWrapper.style.display = "none";
+        // Reset form
+        if (form) form.reset();
+        if (fileNameDisplay) fileNameDisplay.value = 'Choose file...';
+      });
+    }
+
+    // Form submission handling
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        if (!realFileInput.files.length) {
+          e.preventDefault();
+          alert('Please select a photo for your spaceship');
+          return false;
+        }
+        
+        // Show loading state
+        if (submitBtn) {
+          submitBtn.textContent = 'Creating...';
+          submitBtn.disabled = true;
+        }
       });
     }
   });

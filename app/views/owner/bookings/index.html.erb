@@ -2,41 +2,37 @@
   <div style="flex: 1; max-width: 25%;">
     <!-- Left column (1/4 width) -->
     <%= render partial: "owner/bookings/side_bar" %>
-    <div style="flex: 3; max-width: 75%;">
-      <!-- Right column (3/4 width) -->
-      <div id="spaceship-form-container" style="display: none; width: 100%; margin-bottom: 32px;">
-        <div style="max-width: 600px; width: 100%; margin: 0 auto;">
-          <%= render partial: "owner/bookings/new_spaceship_form", locals: { spaceship: Spaceship.new } %>
-        </div>
+  </div>
+  <div style="flex: 3; max-width: 75%;">
+    <!-- Right column (3/4 width) -->
+    <div id="spaceship-form-container" style="display: none; width: 100%; margin-bottom: 32px;">
+      <div style="max-width: 600px; width: 100%; margin: 0 auto;">
+        <%= render partial: "owner/bookings/new_spaceship_form", locals: { spaceship: @spaceship } %>
       </div>
-      <%= render partial: "bookings/tab" %>
     </div>
+    <%= render partial: "bookings/tab" %>
   </div>
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function() {
     const showBtn = document.querySelector("#show-form-button");
     const form = document.getElementById("spaceship-form-container");
     const wrapper = document.getElementById("spaceship-form-wrapper");
     const cancelBtn = document.getElementById("cancel-form-button");
-    console.log(showBtn);
-    console.log(form);
+    
+    if (showBtn && form) {
+      showBtn.addEventListener("click", function() {
+        form.style.display = "block";
+        wrapper.style.display = "block";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
 
-
-    showBtn.addEventListener("click", function() {
-      console.log("clicked");
-
-      form.style.display = "block";
-      wrapper.style.display = "block";
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    if (cancelBtn) {
+    if (cancelBtn && form) {
       cancelBtn.addEventListener("click", function() {
         form.style.display = "none";
       });
     }
   });
-
 </script>

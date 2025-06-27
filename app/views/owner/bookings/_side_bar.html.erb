@@ -1,21 +1,29 @@
-
 <!-- Copied from owner/bookings/index.html.erb -->
 <div style="display: flex; flex-direction: column; align-items: center; padding: 16px; padding-top: 56px; padding-bottom: 56px; background-color: #25233E; margin-left: 80px; margin-right: 20px; border-radius: 16px; margin-bottom: 32px; height:90vh; position: sticky; top: 42px;" >
   <%= image_tag 'user_thumbnail.png', alt: 'Spaceship', style: 'width: 100px; height: 100px; object-fit: cover; border-radius: 50%;' %>
-  <p style="margin-top: 8px; font-size: 20px; font-weight: 600; margin-bottom: 0px;">Anakin Skywalker</p>
-  <p style="text-align: center; font-size: 16px; margin-bottom: 15px;">Anakin@starwars.com</p>
+  <p style="margin-top: 8px; font-size: 20px; font-weight: 600; margin-bottom: 0px;">
+    <% if current_user.first_name.present? || current_user.last_name.present? %>
+      <%= "#{current_user.first_name} #{current_user.last_name}".strip %>
+    <% else %>
+      <%= current_user.email %>
+    <% end %>
+  </p>
+  <p style="text-align: center; font-size: 16px; margin-bottom: 15px;"><%= current_user.email %></p>
   <hr style="width: 95%; margin: 8px 0; border: none; border-top: 1px solid #ccc;">
-  <p style="text-align: left; margin-bottom: 0px; width: 95%">Your spaceships</p>
-  <hr style="width: 95%; margin: 8px 0; border: none; border-top: 1px solid #ccc;">
-
-  <% @spaceships.each do |spaceship| %>
-    <div style="display: flex; align-items: center; margin-bottom: 12px; width: 100%;">
-      <% if spaceship.photo.attached? %>
-        <%= cl_image_tag(spaceship.photo.key, style: 'width: 40px; height: 40px; object-fit: cover; border-radius: 8px; margin-right: 12px;') %>
-      <% end %>
-      <span style="font-size: 16px;"><%= spaceship.name %></span>
-    </div>
-  <% end %>
+  <p style="text-align: left; margin-bottom: 8px; width: 95%; font-weight: 600;">Your spaceships</p>
+  
+  <!-- Scrollable spaceships container -->
+  <div style="width: 95%; flex: 1; overflow-y: auto; margin-bottom: 16px; padding-right: 8px;">
+    <% @spaceships.each do |spaceship| %>
+      <div style="display: flex; align-items: center; margin-bottom: 12px; padding: 8px; border-radius: 8px; background-color: rgba(255, 255, 255, 0.05); transition: background-color 0.2s ease;">
+        <% if spaceship.photo.attached? %>
+          <%= image_tag spaceship.photo, style: 'width: 40px; height: 40px; object-fit: cover; border-radius: 8px; margin-right: 12px; flex-shrink: 0;' %>
+        <% end %>
+        <span style="font-size: 14px; color: #ffffff; flex: 1; word-wrap: break-word;"><%= spaceship.name %></span>
+      </div>
+    <% end %>
+  </div>
+  
   <hr style="width: 95%; margin: 8px 0; border: none; border-top: 1px solid #ccc;">
   <button id="show-form-button" style="padding: 10px 20px; background-color: #1976d2; width: 95%; color: white; border: none; border-radius: 4px; cursor: pointer;">
     Add a spaceship

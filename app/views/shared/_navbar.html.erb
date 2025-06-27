@@ -13,10 +13,14 @@
             <%= link_to "Booking Manager",  bookings_path, class: "nav-link" %>
           </li>
           <li class="nav-item">
-            <%= link_to "Log Out", new_user_session_path, class: "nav-link" %>
+            <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: "nav-link", data: { turbo_method: :delete } %>
           </li>
           <li class="nav-item">
-            <%= link_to "Anakin Skywalker", "#", class: "nav-link", style: "pointer-events: none; color: inherit; text-decoration: none;" %>
+            <% if current_user.first_name.present? || current_user.last_name.present? %>
+              <%= link_to "#{current_user.first_name} #{current_user.last_name}".strip, "#", class: "nav-link", style: "pointer-events: none; color: inherit; text-decoration: none;" %>
+            <% else %>
+              <%= link_to current_user.email, "#", class: "nav-link", style: "pointer-events: none; color: inherit; text-decoration: none;" %>
+            <% end %>
           </li>
           <li class="nav-item dropdown">
             <%= image_tag "user_thumbnail.png", class: "avatar" %>

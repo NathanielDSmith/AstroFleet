@@ -4,12 +4,12 @@
 <div class="d-flex justify-content-center mb-4">
   <div class="w-100" style="max-width: 800px;">
     <%= form_with url: spaceships_path, method: :get, local: true, html: { class: 'input-group' } do %>
-      <%= text_field_tag :query, params[:query], placeholder: "Search spaceships...", class: "form-control" %>
-      <%= number_field_tag :budget, params[:budget], placeholder: "Max Budget (₮)", class: "form-control" %>
-      <%= select_tag :size, options_for_select(["small", "medium", "large", "mega big"], selected: params[:size]), prompt: "Size", class: "form-select" %>
+      <%= text_field_tag :query, params[:query], placeholder: "Search spaceships...", class: "form-control", style: "background-color: #1a1a2e; border: 1px solid #00D4FF; color: #ffffff;" %>
+      <%= number_field_tag :budget, params[:budget], placeholder: "Max Budget (₮)", class: "form-control", style: "background-color: #1a1a2e; border: 1px solid #00D4FF; color: #ffffff;" %>
+      <%= select_tag :size, options_for_select(["small", "medium", "large", "mega big"], selected: params[:size]), prompt: "Size", class: "form-select", style: "background-color: #1a1a2e; border: 1px solid #00D4FF; color: #ffffff;" %>
 
       <div class="input-group-append">
-        <button class="btn btn-outline-primary" type="submit">
+        <button class="btn btn-outline-primary" type="submit" style="border-color: #00D4FF; color: #00D4FF;">
           <i class="fas fa-search"></i>
         </button>
       </div>
@@ -31,7 +31,7 @@
 
 <% if @spaceships.any? %>
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 px-5">
-    <%= render partial: "partials/card", collection: @spaceships, as: :spaceship %>
+    <%= render partial: "spaceships/card", collection: @spaceships, as: :spaceship %>
   </div>
 <% else %>
   <p class="text-muted text-center mt-5">No spaceships available yet.</p>

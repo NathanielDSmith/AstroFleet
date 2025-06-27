@@ -11,9 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2025_05_22_084311) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -43,8 +40,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_22_084311) do
   end
 
   create_table "bookings", force: :cascade do |t|
-    t.bigint "spaceship_id", null: false
-    t.bigint "user_id", null: false
+    t.integer "spaceship_id", null: false
+    t.integer "user_id", null: false
     t.date "start_date"
     t.date "end_date"
     t.bigint "total_price"
@@ -57,8 +54,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_22_084311) do
 
   create_table "reviews", force: :cascade do |t|
     t.string "content"
-    t.bigint "user_id", null: false
-    t.bigint "spaceship_id", null: false
+    t.integer "user_id", null: false
+    t.integer "spaceship_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "rating"
@@ -74,7 +71,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_22_084311) do
     t.integer "max_speed"
     t.text "features"
     t.string "size"
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.string "photo"
     t.text "description"
     t.integer "rating"

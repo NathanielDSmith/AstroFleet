@@ -1,18 +1,49 @@
-<h2>Log in</h2>
-<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="form-inputs">
+<div class="sign-in-container" style="min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 60px 20px 40px 20px; margin: 0; width: 100%;">
+  <div class="sign-in-card" style="max-width: 450px; margin: 80px auto 0 auto; width: 100%;">
+    <div class="sign-in-header">
+      <h1>Welcome Back, Space Explorer</h1>
+      <p>Ready to continue your interstellar journey?</p>
+    </div>
     
-    <%= f.input :email,
-                required: false,
-                autofocus: true,
-                input_html: { autocomplete: "email" } %>
-    <%= f.input :password,
-                required: false,
-                input_html: { autocomplete: "current-password" } %>
-    <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'sign-in-form' }) do |f| %>
+      <div class="form-inputs">
+        <div class="input-group">
+          <%= f.input :email,
+                      required: false,
+                      autofocus: true,
+                      label: "Email Address",
+                      input_html: { 
+                        autocomplete: "email", 
+                        value: "buzz@starfleet.com",
+                        class: "form-control cosmic-input"
+                      } %>
+        </div>
+        
+        <div class="input-group">
+          <%= f.input :password,
+                      required: false,
+                      label: "Password",
+                      input_html: { 
+                        autocomplete: "current-password", 
+                        value: "password123",
+                        class: "form-control cosmic-input"
+                      } %>
+        </div>
+        
+        <% if devise_mapping.rememberable? %>
+          <div class="remember-me">
+            <%= f.input :remember_me, as: :boolean, label: "Remember me" %>
+          </div>
+        <% end %>
+      </div>
+      
+      <div class="form-actions">
+        <%= f.button :submit, "Launch Into AstroFleet", class: "btn btn-primary cosmic-btn" %>
+      </div>
+    <% end %>
+    
+    <div class="sign-in-links">
+      <%= render "devise/shared/links" %>
+    </div>
   </div>
-  <div class="form-actions">
-    <%= f.button :submit, "Log in" %>
-  </div>
-<% end %>
-<%= render "devise/shared/links" %>
+</div>

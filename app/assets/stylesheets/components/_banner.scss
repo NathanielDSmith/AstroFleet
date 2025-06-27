@@ -1,26 +1,89 @@
 .banner {
+  background-image: linear-gradient(135deg, rgba(10, 10, 15, 0.7) 0%, rgba(26, 26, 46, 0.7) 100%);
   background-size: cover;
   background-position: center;
-  padding: 150px 0;
+  background-repeat: no-repeat;
+  color: $stardust-white;
+  text-align: center;
   height: 100vh;
-}
-
-.banner h1 {
-  margin: 0;
-  color: white;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-  font-size: 50px;
-  font-weight: bold;
-}
-
-.banner p {
-  margin-top: 40px;
-  font-size: 20px;
-  color: white;
-  opacity: .7;
-  line-height: 1.5;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-}
-.banner a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
   
+  // Set background image from data attribute
+  &[data-background-image] {
+    background-image: linear-gradient(135deg, rgba(10, 10, 15, 0.7) 0%, rgba(26, 26, 46, 0.7) 100%), url(attr(data-background-image url));
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  // Add floating nebula effect overlay
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+    animation: nebulaFloat 12s ease-in-out infinite;
+    pointer-events: none;
+  }
+  
+  h1 {
+    font-size: 4rem;
+    font-weight: bold;
+    color: $cosmic-cyan;
+    text-shadow: 0 0 30px rgba(0, 212, 255, 0.8);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+  
+  p {
+    font-size: 1.5rem;
+    color: $cosmic-silver;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .btn {
+    background: linear-gradient(45deg, $cosmic-cyan, $nebula-pink);
+    border: none;
+    border-radius: 30px;
+    color: $stardust-white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+    position: relative;
+    z-index: 2;
+    
+    &:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 12px 35px rgba(0, 212, 255, 0.6);
+      background: linear-gradient(45deg, $nebula-pink, $cosmic-cyan);
+    }
+  }
+}
+
+@keyframes nebulaFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { text-shadow: 0 0 30px rgba(0, 212, 255, 0.8); }
+  50% { text-shadow: 0 0 50px rgba(0, 212, 255, 1); }
 }

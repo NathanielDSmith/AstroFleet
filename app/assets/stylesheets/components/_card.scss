@@ -1,7 +1,128 @@
 .card-spaceship {
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2);
   margin: 16px;
   line-height: 1;
-  border: 1px solid #efefef;
+  border: 2px solid transparent;
+  background: linear-gradient(145deg, $deep-space 0%, $nebula-blue 100%);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  
+  &:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
+    border-color: $cosmic-cyan;
+    
+    .card-img-top {
+      transform: scale(1.1);
+    }
+    
+    .card-body {
+      background: linear-gradient(145deg, rgba(22, 33, 62, 0.9) 0%, rgba(83, 52, 131, 0.9) 100%);
+    }
+  }
+  
+  // Add cosmic glow effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, $cosmic-cyan, $nebula-pink, $star-yellow, $cosmic-cyan);
+    border-radius: 17px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  
+  &:hover::before {
+    opacity: 1;
+    animation: borderGlow 2s linear infinite;
+  }
+  
+  .card-img-top {
+    transition: transform 0.4s ease;
+    border-radius: 13px 13px 0 0;
+    filter: brightness(0.9) contrast(1.1);
+  }
+  
+  .card-body {
+    background: linear-gradient(145deg, rgba(22, 33, 62, 0.8) 0%, rgba(83, 52, 131, 0.8) 100%);
+    color: $stardust-white;
+    transition: all 0.4s ease;
+    
+    .card-title {
+      color: $cosmic-cyan;
+      text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .card-text {
+      color: $cosmic-silver;
+      line-height: 1.6;
+    }
+    
+    .price {
+      color: $star-yellow;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+    
+    .rating {
+      color: $aurora-green;
+      text-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
+    }
+  }
+  
+  .btn {
+    background: linear-gradient(45deg, $cosmic-cyan, $nebula-pink);
+    border: none;
+    border-radius: 25px;
+    color: $stardust-white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+      background: linear-gradient(45deg, $nebula-pink, $cosmic-cyan);
+    }
+  }
+}
+
+@keyframes borderGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+// Add floating stars to cards
+.card-spaceship::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(1px 1px at 25% 25%, $star-yellow, transparent),
+    radial-gradient(1px 1px at 75% 75%, $cosmic-cyan, transparent),
+    radial-gradient(0.5px 0.5px at 50% 10%, $stardust-white, transparent);
+  background-repeat: no-repeat;
+  opacity: 0.4;
+  pointer-events: none;
+  animation: floatStars 6s ease-in-out infinite;
+}
+
+@keyframes floatStars {
+  0%, 100% { transform: translateY(0px); opacity: 0.4; }
+  50% { transform: translateY(-5px); opacity: 0.7; }
 }

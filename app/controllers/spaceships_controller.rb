@@ -7,7 +7,7 @@ class SpaceshipsController < ApplicationController
 
   # for the renters
   def index
-    @spaceships = Spaceship.where.not(user: current_user)
+    @spaceships = Spaceship.all
 
     if params[:query].present?
       @spaceships = @spaceships.where("name ILIKE ?", "%#{params[:query]}%")
@@ -38,7 +38,12 @@ class SpaceshipsController < ApplicationController
     if @spaceship.save
       redirect_to owner_bookings_path, notice: "Spaceship successfully created!"
     else
-      render :new
+      # If we're coming from the owner bookings page, redirect back there with errors
+      if request.referer&.include?('owner/bookings')
+        redirect_to owner_bookings_path, alert: "Failed to create spaceship: #{@spaceship.errors.full_messages.join(', ')}"
+      else
+        render :new, status: :unprocessable_entity
+      end
     end
   end
 
